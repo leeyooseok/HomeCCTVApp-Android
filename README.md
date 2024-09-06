@@ -6,10 +6,12 @@
 - 아두이노에 명령을 전송하여 전등제어기능을 추가하였습니다.
 ----------------------------------------------------------------------------------------------
 ## 1.LoginActivity
- ### DatabaseHelper
+ - ### DatabaseHelper
 ## 2.MainActivity
-- CCTV 제어<br>
-- 전등 제어<br>
+- ### CCTV 제어(CCTVActivity)<br>
+- ### CCTVControlActivity
+- ### StreamCCTV
+- ### 전등 제어(LightControlActivity)<br>
 -----------------------------------------
 # LoginActivity
 - 입력한 ID와 비밀번호를 가져와서 문자열로 반환하고 공백을 제거합니다<br>
@@ -29,7 +31,7 @@
             startActivity(intent);
             finish(); // 현재 액티비티를 종료하여 뒤로가기 시 로그인 화면으로 돌아가지 않게 함
         } else {
-            Toast.makeText(ㅊ(), "로그인 실패: ID 또는 비밀번호를 확인하세요.", Toast.LENGTH_SHORT).show();
+            Toast.makeText((), "로그인 실패: ID 또는 비밀번호를 확인하세요.", Toast.LENGTH_SHORT).show();
         }
     }turn;
         }
@@ -144,7 +146,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 # MainActivity
 
-MainActivity 클래스는 HomeCCTV 애플리케이션의 주요 기능인 CCTV제어와 전등제어 기능으로 이동할 수 있게 분류해둔 클래스입니다.
+MainActivity 클래스는 HomeCCTV 애플리케이션의 주요 기능인 CCTV제어와 전등제어 기능으로 이동할 수 있게 나누어 둔 클래스입니다.
 버튼을 클릭시 해당하는 액티비티로 전환하는 Intent 객체를 사용하여 액티비티간의 원활한 전환을 도와줍니다.
 ```java
 public class MainActivity extends AppCompatActivity {
@@ -228,4 +230,6 @@ public class CCTVActivity extends AppCompatActivity {
 ```
 3개의 IP주소를 받아 영상을 스트리밍을 하였고 화면을 클릭하였을때 CCTV를 제어할 수 있는 액티비티로 넘어갈 수 있다.<br>
 여기서는 2개의 컴퓨터로 다른 IP주소를 사용하여 ```private void openCCTVControlActivity(String url,String IP)```함수를 사용했을때 URL과 IP주소를 같이 기입해줘야 해당 서버로 명령어가 전달되어 원하는 영상의 움직임을 작동할 수 있다..<br>
+
+---------------------------------------------
 
