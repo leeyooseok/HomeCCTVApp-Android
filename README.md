@@ -141,6 +141,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 ```
 
 ----------------------------------------------------------------------------------
+
 # MainActivity
 
 MainActivity 클래스는 HomeCCTV 애플리케이션의 주요 기능인 CCTV제어와 전등제어 기능으로 이동할 수 있게 분류해둔 클래스입니다.
@@ -174,3 +175,43 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 ```
+
+---------------------------------------------------------------------
+
+# CCTVActivity
+
+```java
+public class CCTVActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_cctv);
+
+        MyHomeCCTV cctvSurfaceView1 = findViewById(R.id.cctvSurfaceView1);
+        MyHomeCCTV cctvSurfaceView2 = findViewById(R.id.cctvSurfaceView2);
+        MyHomeCCTV cctvSurfaceView3 = findViewById(R.id.cctvSurfaceView3);
+
+        // 각 뷰에 다른 URL 설정
+        cctvSurfaceView1.setStreamUrl("http://192.168.0.109:8000/camera/mjpeg");
+        cctvSurfaceView2.setStreamUrl("http://188.113.184.246:47544/mjpg/video.mjpg");
+        cctvSurfaceView3.setStreamUrl("http://109.236.111.203/mjpg/video.mjpg");
+
+        // 첫 번째 CCTV 클릭 시
+        cctvSurfaceView1.setOnClickListener(v -> openCCTVControlActivity("http://192.168.0.109:8000/camera/mjpeg"));
+
+        // 두 번째 CCTV 클릭 시
+        cctvSurfaceView2.setOnClickListener(v -> openCCTVControlActivity("http://188.113.184.246:47544/mjpg/video.mjpg"));
+
+        // 세 번째 CCTV 클릭 시
+        cctvSurfaceView3.setOnClickListener(v -> openCCTVControlActivity("http://109.236.111.203/mjpg/video.mjpg"));
+    }
+
+    private void openCCTVControlActivity(String url) {
+        Intent intent = new Intent(this, CCTVControlActivity.class);
+        intent.putExtra("streamUrl", url);
+        startActivity(intent);
+    }
+}
+```
+3개의 IP주소를 받아 스트리밍을 하였고 2,3번의 IP는 
