@@ -181,6 +181,15 @@ public class MainActivity extends AppCompatActivity {
 # CCTVActivity
 
 ```java
+package com.example.homecctv;
+
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+import androidx.appcompat.app.AppCompatActivity;
+
+
 public class CCTVActivity extends AppCompatActivity {
 
     @Override
@@ -194,24 +203,29 @@ public class CCTVActivity extends AppCompatActivity {
 
         // 각 뷰에 다른 URL 설정
         cctvSurfaceView1.setStreamUrl("http://192.168.0.109:8000/camera/mjpeg");
-        cctvSurfaceView2.setStreamUrl("http://188.113.184.246:47544/mjpg/video.mjpg");
+        cctvSurfaceView2.setStreamUrl("http://192.168.0.100:8000/camera/mjpeg");
         cctvSurfaceView3.setStreamUrl("http://109.236.111.203/mjpg/video.mjpg");
+        //cctvSurfaceView2.setStreamUrl("http://192.168.0.109:8000/camera/mjpeg");
 
         // 첫 번째 CCTV 클릭 시
-        cctvSurfaceView1.setOnClickListener(v -> openCCTVControlActivity("http://192.168.0.109:8000/camera/mjpeg"));
+        cctvSurfaceView1.setOnClickListener(v -> openCCTVControlActivity("http://192.168.0.109:8000/camera/mjpeg","192.168.0.109"));
 
         // 두 번째 CCTV 클릭 시
-        cctvSurfaceView2.setOnClickListener(v -> openCCTVControlActivity("http://188.113.184.246:47544/mjpg/video.mjpg"));
+        cctvSurfaceView2.setOnClickListener(v -> openCCTVControlActivity("http://192.168.0.100:8000/camera/mjpeg","192.168.0.100"));
 
         // 세 번째 CCTV 클릭 시
-        cctvSurfaceView3.setOnClickListener(v -> openCCTVControlActivity("http://109.236.111.203/mjpg/video.mjpg"));
+        cctvSurfaceView3.setOnClickListener(v -> openCCTVControlActivity("http://109.236.111.203/mjpg/video.mjpg",null));
     }
 
-    private void openCCTVControlActivity(String url) {
+
+    private void openCCTVControlActivity(String url,String IP) {
         Intent intent = new Intent(this, CCTVControlActivity.class);
         intent.putExtra("streamUrl", url);
+        intent.putExtra("cameraIP", IP);
         startActivity(intent);
     }
 }
 ```
-3개의 IP주소를 받아 스트리밍을 하였고 2,3번의 IP는 
+3개의 IP주소를 받아 영상을 스트리밍을 하였고 화면을 클릭하였을때 CCTV를 제어할 수 있는 액티비티로 넘어갈 수 있다.<br>
+여기서는 2개의 컴퓨터로 다른 IP주소를 사용하여 ```private void openCCTVControlActivity(String url,String IP)```함수를 사용했을때 URL과 IP주소를 같이 기입해줘야 해당 서버로 명령어가 전달되어 원하는 영상의 움직임을 작동할 수 있다..<br>
+
