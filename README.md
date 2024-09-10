@@ -1,9 +1,24 @@
+## HomeCCTVApplication
+
 이 프로젝트는 아두이노에 할당된 명령어를 IP서버를 통해 Android Studio에 연결하여 원하는 명령을 전송할 수 있도록 구현한 프로그램입니다.<br>
-현재까지 가능한 기능은<br>
+이 프로그램을 작동하기 위해선 Python,java,arduino를 함께 사용해야합니다.
+전체적인 프로젝트는 아래 링크에서 확인해 주시면 됩니다.
+## [HomeCCTV Project-all](https://github.com/leeyooseok/HomeCCTVApp-project.git)
+------------------------------------------------------
+
+### 현재까지 가능한 기능은<br>
 - ip서버가 같은 네트워크에 연결된 카메라를 통해 어플리케이션에서 실시간 스트리밍이 가능합니다.
 - 아두이노에 명령을 전송하여 상하좌우 버튼을 눌러 카메라의 움직임을 구현하였습니다.
 - 음성명령을 openAI를 통해 상하좌우 카메라의 움직임이 가능하도록 구현했습니다.
-- 아두이노에 명령을 전송하여 전등제어기능을 추가하였습니다.
+- 아두이노에 명령을 전송하여 조명제어기능을 추가하였습니다.
+  
+--------------------------------------------------------------------------------------------
+
+### 추가 예정 기능<br>
+- 현재 구현된 조명제어기능으론 집안의 전등제어가 불가능하여 아두이노의 모터 움직임을 통해 전등을 제어하는 기능 추가할 예정입니다.
+- 워키토키 형식으로 음성을 주고 받을 수 있게 하여 소리가 날 경우 자동으로 음성알림을 어플리케이션에서 받아 보안성을 높힐 수 있도록 기능 추가예정입니다.
+- 아두이노를 통해 집안의 온도와 습도를 확인할 수 있는 기능 추가 예정입니다.
+
 ----------------------------------------------------------------------------------------------
 ## 1. [LoginActivity](#loginactivity)
 - ### [로그인 정보(DatabaseHelper)](#databasehelper)
@@ -149,7 +164,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 ## MainActivity
 
-MainActivity 클래스는 HomeCCTV 애플리케이션의 주요 기능인 CCTV제어와 전등제어 기능으로 이동할 수 있게 나누어 둔 클래스입니다.
+MainActivity 클래스는 HomeCCTV 애플리케이션의 주요 기능인 CCTV제어와 조명제어 기능으로 이동할 수 있게 나누어 둔 클래스입니다.
 버튼을 클릭시 해당하는 액티비티로 전환하는 Intent 객체를 사용하여 액티비티간의 원활한 전환을 도와줍니다.
 ```java
 public class MainActivity extends AppCompatActivity {
@@ -172,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // 전등 제어 화면으로 이동
+        // 조명 제어 화면으로 이동
         lightControlButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, LightControlActivity.class);
             startActivity(intent);
