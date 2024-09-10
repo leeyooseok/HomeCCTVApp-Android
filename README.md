@@ -5,13 +5,13 @@
 - 음성명령을 openAI를 통해 상하좌우 카메라의 움직임이 가능하도록 구현했습니다.
 - 아두이노에 명령을 전송하여 전등제어기능을 추가하였습니다.
 ----------------------------------------------------------------------------------------------
-## 1.LoginActivity
- - ### DatabaseHelper
-## 2.MainActivity
-- ### CCTV 제어(CCTVActivity)<br>
-- ### CCTVControlActivity
-- ### StreamCCTV
-- ### 조명 밝기 제어(LightControlActivity)<br>
+## 1.LoginActivity(#loginactivity)
+ - ### DatabaseHelper(#2)
+## 2.MainActivity(#3)
+- ### CCTV 제어(CCTVActivity)(#4)
+- ### CCTVControlActivity(#5)
+- ### StreamCCTV(#6)
+- ### 조명 밝기 제어(LightControlActivity)(#7)
 -----------------------------------------
 # LoginActivity
 - 입력한 ID와 비밀번호를 가져와서 문자열로 반환하고 공백을 제거합니다<br>
@@ -586,4 +586,51 @@ private void setupLightControls() {
         });
     }
 ```
-버튼 하나에 on/off제어를 하도록하여 토글형식으로 제어하도록
+버튼 하나에 on/off형식인 토글형식으로 제어하도록 버튼을 클릭하였을때 on,off이미지가 전환되고 커맨드가 전달되는 형식의 코드입니다.<br>
+기본 상태는 전원 off상태로 설정해둡니다.<br>
+
+```java
+private void setupAllLightsControl() {
+        ToggleButton toggleAllLights = findViewById(R.id.toggleAllLights);
+
+        toggleAllLights.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                sendCommand2('i'); // 모든 조명을 켜는 명령을 서버로 전송
+                setAllLightVisibility(true);
+            } else {
+                sendCommand2('j'); // 모든 조명을 끄는 명령을 서버로 전송
+                setAllLightVisibility(false);
+            }
+        });
+    }
+
+    private void setAllLightVisibility(boolean isOn) {
+        int visibilityOff = isOn ? ImageView.GONE : ImageView.VISIBLE;
+        int visibilityOn = isOn ? ImageView.VISIBLE : ImageView.GONE;
+
+        for (int i = 1; i <= 4; i++) {
+            int offImageId = getResources().getIdentifier("lightImage" + i, "id", getPackageName());
+            int onImageId = getResources().getIdentifier("lightImage" + i + "On", "id", getPackageName());
+
+            findViewById(offImageId).setVisibility(visibilityOff);
+            findViewById(onImageId).setVisibility(visibilityOn);
+        }
+    }
+```
+매개변수 ```isOn````을 사용하여 isOn이 true일 경우 모든 조명을 켜고 false일 경우 모든 조명을 끄는 상태로 설정합니다.<br>
+
+```java
+int visibilityOff = isOn ? ImageView.GONE : ImageView.VISIBLE;
+int visibilityOn = isOn ? ImageView.VISIBLE : ImageView.GONE;
+```
+조명이 켜진 상태일경우 off이미지를 GONE상태로, 꺼진 상태일 경우 VISIBLE상태로 설정합니다.<br>
+조명이 꺼진 상태일경우 on이미지를 VISIBLE상태로, 꺼진 상태일 경우 GONE상태로상태로 설정합니다.<br>
+```java
+for (int i = 1; i <= 4; i++) {  
+ }
+```
+반복문을 통해 1번부터 4번까지의 조명을 차례로 처리합니다.<br>
+getIdentifier() 메서드를 사용해 조명의 꺼짐(lightImage1, lightImage2 등) 및 켜짐(lightImage1On, lightImage2On 등) 이미지를 동적으로 찾습니다.<br>
+findViewById()를 사용하여 찾은 이미지 뷰의 가시성을 앞서 정의한 visibilityOff 및 visibilityOn 값에 따라 설정합니다.<br>
+
+------------------------------------------------------------------------------------
