@@ -205,15 +205,6 @@ public class MainActivity extends AppCompatActivity {
 현재 세번째 CCTV는 임의의 URL주소를 받아서 스트리밍만 구현해둔 상태로 움직임을 제어할 수 없는 상태이기 떄문에 cameraIP를 null로 지정해둔 상태입니다.
 
 ```java
-package com.example.homecctv;
-
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.widget.Button;
-import androidx.appcompat.app.AppCompatActivity;
-
-
 public class CCTVActivity extends AppCompatActivity {
 
     @Override
