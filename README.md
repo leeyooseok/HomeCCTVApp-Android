@@ -228,8 +228,222 @@ public class CCTVActivity extends AppCompatActivity {
     }
 }
 ```
-3개의 IP주소를 받아 영상을 스트리밍을 하였고 화면을 클릭하였을때 CCTV를 제어할 수 있는 액티비티로 넘어갈 수 있다.<br>
-여기서는 2개의 컴퓨터로 다른 IP주소를 사용하여 ```private void openCCTVControlActivity(String url,String IP)```함수를 사용했을때 URL과 IP주소를 같이 기입해줘야 해당 서버로 명령어가 전달되어 원하는 영상의 움직임을 작동할 수 있다..<br>
+3개의 IP주소를 받아 영상을 스트리밍을 하였고 화면을 클릭하였을때 CCTV를 제어할 수 있는 액티비티로 넘어갈 수 있습니다.<br>
+여기서는 2개의 컴퓨터로 다른 IP주소를 사용하여 ```private void openCCTVControlActivity(String url,String IP)```함수를 사용했을때 URL과 IP주소를 같이 기입해줘야 해당 주소의 서버로 명령어가 전달되어 원하는 영상의 움직임을 제어할 수 있습니다.<br>
+현재 세번째 CCTV는 임의의 주소를 받아서 스트리밍만 구현해둔 상태로 움직임을 제어할 수 없는 상태이기 떄문에 cameraIP를 null로 지정해둔 상태입니다.
 
----------------------------------------------
+-----------------------------------------------------------------------------------------
+
+CCTVControlActivity클래스는 CCTVActivity에서 선택한 카메라를 제어할 수 있도록 구현해둔 클래스로 버튼을 통한 움직임과 음성인식을 통한 움직임이 가능하도록 하였습니다.<br>
+제일 많은 시간이 들었던 클래스였으며 기능을 수정하거나 추가하였을때 쓰레드간의 충돌이 생겨 어플리케이션이 강제종료되는 경우가 발생하여 다른 방법을 찾아볼 수 있는 좋은 경험이 되었습니다.<br>
+Intent를 통해 화면 전환을 하는 과정에서 스택이 계속 쌓이는 부분을 해결하였습니다.<br>
+주석처리 된 부분은 블루투스로 송수신하는 방법으로 원거리 통신에 제한이 있어 HomeCCTV의 목적성에 부적합하다 생각하여 서버를 통해 송수신하는 방법으로 구현하였습니다.<br>
+# CCTVControlActivity
+
+```java
+package com.example.homecctv;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.speech.RecognizerIntent;
+import android.util.Log;
+import android.widget.Button;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.Locale;
+
+public class CCTVControlActivity extends AppCompatActivity {
+
+    private StreamCCTV cctvSurfaceView;
+//    private BluetoothController bluetoothController;
+//    private static final String DEVICE_ADDRESS = "98:DA:60:07:6C:5B"; // 아두이노의 블루투스 주소
+    private static final int SERVER_PORT = 7777; // 서버의 포트 번호
+    private static final int VOICE_REQUEST_CODE = 101;
+    private TextView voiceCommandResult;
+    private String cameraIP;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_cctv_control);
+
+        cameraIP = getIntent().getStringExtra("cameraIP");
+
+        // 뒤로가기 버튼 설정
+        Button buttonBack = findViewById(R.id.buttonBack);
+        buttonBack.setOnClickListener(v -> openCCTVlActivity("url"));
+
+        // CCTV 서페이스 뷰 설정
+        cctvSurfaceView = findViewById(R.id.cctvSurfaceView);
+
+        // 이전 액티비티에서 전달된 URL을 받습니다.
+        String streamUrl = getIntent().getStringExtra("streamUrl");
+        cctvSurfaceView.setStreamUrl(streamUrl);
+
+
+
+        Button buttonUp = findViewById(R.id.buttonUp);
+        Button buttonDown = findViewById(R.id.buttonDown);
+        Button buttonLeft = findViewById(R.id.buttonLeft);
+        Button buttonRight = findViewById(R.id.buttonRight);
+
+        buttonUp.setOnClickListener(v -> sendCommand('U'));
+        buttonDown.setOnClickListener(v -> sendCommand('D'));
+        buttonLeft.setOnClickListener(v -> sendCommand('L'));
+        buttonRight.setOnClickListener(v -> sendCommand('R'));
+
+        //        bluetoothController = new BluetoothController(this);
+//
+//        // 블루투스 디바이스 연결 시도
+//        if (!bluetoothController.connectToDevice(DEVICE_ADDRESS)) {
+//            return; // 연결 실패 시 더 이상 진행하지 않음
+//        }
+
+        // CCTV 회전 버튼 설정
+//        buttonUp.setOnClickListener(v -> bluetoothController.sendCommand("U"));
+//        buttonDown.setOnClickListener(v -> bluetoothController.sendCommand("D"));
+//        buttonLeft.setOnClickListener(v -> bluetoothController.sendCommand("L"));
+//        buttonRight.setOnClickListener(v -> bluetoothController.sendCommand("R"));
+
+        // 버튼 클릭 시 UDP 패킷으로 명령 전송
+        voiceCommandResult = findViewById(R.id.voiceCommandResult);
+        Button startVoiceRecognitionButton = findViewById(R.id.startVoiceRecognitionButton);
+
+        startVoiceRecognitionButton.setOnClickListener(v -> startVoiceRecognition());
+    }
+
+    public void sendCommand(char command) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    DatagramSocket ds = new DatagramSocket();
+                    InetAddress ia=InetAddress.getByName(cameraIP);
+                    byte[] data = new String(new char[]{command}).getBytes();
+                    DatagramPacket dp = new DatagramPacket(data,data.length,ia,SERVER_PORT);
+                    ds.send(dp);
+                    ds.close();
+                }catch (Exception e){
+                    Log.d("UDPClient","Error: " + e.getMessage());
+                }
+            }
+        }).start();
+    }
+
+    private void startVoiceRecognition() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.KOREA);
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "명령어를 말하세요");
+
+        try {
+            startActivityForResult(intent, VOICE_REQUEST_CODE);
+        } catch (Exception e) {
+            Toast.makeText(this, "음성 인식에 실패했습니다.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == VOICE_REQUEST_CODE && resultCode == RESULT_OK) {
+            ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            if (matches != null && !matches.isEmpty()) {
+                String command = matches.get(0);
+                voiceCommandResult.setText("인식된 명령어: " + command);
+                handleVoiceCommand(command);
+            } else {
+                voiceCommandResult.setText("음성 인식 결과가 없습니다.");
+            }
+        }
+    }
+
+    public void handleVoiceCommand(String msgText) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    DatagramSocket ds = new DatagramSocket();
+                    InetAddress ia=InetAddress.getByName(cameraIP);
+                    byte[] data = msgText.getBytes();
+                    DatagramPacket dp = new DatagramPacket(data,data.length,ia,9999);
+                    ds.send(dp);
+                    ds.close();
+                }catch (Exception e){
+                    Log.d("UDPClient","Error: " + e.getMessage());
+                }
+            }
+        }).start();
+    }
+    private void openCCTVlActivity(String url) {
+        Intent intent = new Intent(this, CCTVActivity.class);
+        intent.putExtra("streamUrl", url);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        // 새 액티비티 시작
+        startActivity(intent);
+    }
+
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        bluetoothController.closeConnection();
+//    }
+}
+```
+
+<br>
+```java
+public void sendCommand(char command) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    DatagramSocket ds = new DatagramSocket();
+                    InetAddress ia=InetAddress.getByName(cameraIP);
+                    byte[] data = new String(new char[]{command}).getBytes();
+                    DatagramPacket dp = new DatagramPacket(data,data.length,ia,SERVER_PORT);
+                    ds.send(dp);
+                    ds.close();
+                }catch (Exception e){
+                    Log.d("UDPClient","Error: " + e.getMessage());
+                }
+            }
+        }).start();
+    }
+```
+이 메서드는 UDP소켓을 사용해 지정해둔 명령어를 해당 카메라의 IP와 서버 포트로 전송합니다. 새로운 쓰레드를 만들어 네트워크 통신을 실행하며 이는 UI 쓰레드의 성능 저하를 방지합니다.<br>
+```InetAddress ia=InetAddress.getByName(cameraIP);```를 통해 카메라의 IP를 받아올 수 있으며 ``` DatagramPacket dp = new DatagramPacket(data,data.length,ia,SERVER_PORT);```에서 위에서 정의해둔 SERVER_PORT=7777 사용합니다.<br>
+<br>
+```private void startVoiceRecognition()```,```protected void onActivityResult(int requestCode, int resultCode, Intent data)```에서는 RecognizerIntent를 사용해 음성 인식 기능을 시작하며, 사용자의 음성을 텍스트로 변환합니다.<br>
+EXTRA_LANGUAGE로 언어를 한국어로 설정하고, 사용자가 음성 명령을 입력하도록 프롬프트를 표시합니다.<br>
+사용자의 음성이 텍스트로 변환된 후, onActivityResult() 메서드에서 그 결과를 처리합니다.<br>
+인식된 명령어는 화면에 표시되고, handleVoiceCommand() 메서드를 통해 적절한 제어 명령으로 변환되어 UDP 패킷으로 전송됩니다.<br>
+```java
+public void handleVoiceCommand(String msgText) {      
+    }
+```
+위의 sendCommand와 형식은 비슷하나 이 메서드에선 커맨드가 아닌 텍스트형으로 데이터가 전송됩니다.<br>
+포트는 9999번으로 Python에 연결하여 openai를 통해 텍스트가 적절한 커맨드로 변환되어 출력되도록 도와줍니다.<br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
