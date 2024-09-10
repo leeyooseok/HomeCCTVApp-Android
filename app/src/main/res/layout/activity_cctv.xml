@@ -1,0 +1,37 @@
+<!-- activity_cctv_control.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#A4B0B6"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <com.example.homecctv.StreamCCTV
+            android:id="@+id/cctvSurfaceView1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1" />
+
+        <com.example.homecctv.StreamCCTV
+            android:id="@+id/cctvSurfaceView2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1" />
+
+        <com.example.homecctv.StreamCCTV
+            android:id="@+id/cctvSurfaceView3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+</LinearLayout>

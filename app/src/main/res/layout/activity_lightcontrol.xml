@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/lightImage1"
+            android:layout_width="240dp"
+            android:layout_height="99dp"
+            android:src="@drawable/lightoff" />
+
+        <ImageView
+            android:id="@+id/lightImage1On"
+            android:layout_width="240dp"
+            android:layout_height="99dp"
+            android:src="@drawable/lighton"
+            android:visibility="gone" /> <!-- Initially hidden -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="전등1"
+                android:textAlignment="center"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/buttonLight1"
+                android:layout_width="104dp"
+                android:layout_height="58dp"
+                android:layout_gravity="center"
+                android:text="on/off" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/lightImage2"
+            android:layout_width="240dp"
+            android:layout_height="99dp"
+            android:src="@drawable/lightoff" />
+
+        <ImageView
+            android:id="@+id/lightImage2On"
+            android:layout_width="240dp"
+            android:layout_height="99dp"
+            android:src="@drawable/lighton"
+            android:visibility="gone" /> <!-- Initially hidden -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="전등2"
+                android:textAlignment="center"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/buttonLight2"
+                android:layout_width="104dp"
+                android:layout_height="58dp"
+                android:layout_gravity="center"
+                android:text="on/off" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/lightImage3"
+            android:layout_width="240dp"
+            android:layout_height="99dp"
+            android:src="@drawable/lightoff" />
+
+        <ImageView
+            android:id="@+id/lightImage3On"
+            android:layout_width="240dp"
+            android:layout_height="99dp"
+            android:src="@drawable/lighton"
+            android:visibility="gone" /> <!-- Initially hidden -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="전등3"
+                android:textAlignment="center"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/buttonLight3"
+                android:layout_width="104dp"
+                android:layout_height="58dp"
+                android:layout_gravity="center"
+                android:text="on/off" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/lightImage4"
+            android:layout_width="240dp"
+            android:layout_height="99dp"
+            android:src="@drawable/lightoff" />
+
+        <ImageView
+            android:id="@+id/lightImage4On"
+            android:layout_width="240dp"
+            android:layout_height="99dp"
+            android:src="@drawable/lighton"
+            android:visibility="gone" /> <!-- Initially hidden -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="전등4"
+                android:textAlignment="center"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/buttonLight4"
+                android:layout_width="104dp"
+                android:layout_height="58dp"
+                android:layout_gravity="center"
+                android:text="on/off" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <ToggleButton
+        android:id="@+id/toggleAllLights"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textOff="전체 점등"
+        android:textOn="전체 소등" />
+
+    <Button
+        android:id="@+id/backbutton2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="뒤로 가기" />
+
+</LinearLayout>
