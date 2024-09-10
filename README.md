@@ -397,41 +397,45 @@ public class CCTVControlActivity extends AppCompatActivity {
 //    }
 }
 ```
-
 <br>
+
 ```java
 public void sendCommand(char command) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try{
-                    DatagramSocket ds = new DatagramSocket();
-                    InetAddress ia=InetAddress.getByName(cameraIP);
-                    byte[] data = new String(new char[]{command}).getBytes();
-                    DatagramPacket dp = new DatagramPacket(data,data.length,ia,SERVER_PORT);
-                    ds.send(dp);
-                    ds.close();
-                }catch (Exception e){
-                    Log.d("UDPClient","Error: " + e.getMessage());
-                }
-            }
-        }).start();
     }
 ```
 이 메서드는 UDP소켓을 사용해 지정해둔 명령어를 해당 카메라의 IP와 서버 포트로 전송합니다. 새로운 쓰레드를 만들어 네트워크 통신을 실행하며 이는 UI 쓰레드의 성능 저하를 방지합니다.<br>
-```InetAddress ia=InetAddress.getByName(cameraIP);```를 통해 카메라의 IP를 받아올 수 있으며 ``` DatagramPacket dp = new DatagramPacket(data,data.length,ia,SERVER_PORT);```에서 위에서 정의해둔 SERVER_PORT=7777 사용합니다.<br>
+
+``` InetAddress ia=InetAddress.getByName(cameraIP);``` 를 통해 카메라의 IP를 받아올 수 있으며 ``` DatagramPacket dp = new DatagramPacket(data,data.length,ia,SERVER_PORT);``` 에서는 위에서 정의해둔 SERVER_PORT=7777 사용합니다.<br>
 <br>
-```private void startVoiceRecognition()```,```protected void onActivityResult(int requestCode, int resultCode, Intent data)```에서는 RecognizerIntent를 사용해 음성 인식 기능을 시작하며, 사용자의 음성을 텍스트로 변환합니다.<br>
+```java
+private void startVoiceRecognition()
+```
+<br>
+```java
+protected void onActivityResult(int requestCode, int resultCode, Intent data)
+```
+
+에서는 RecognizerIntent를 사용해 음성 인식 기능을 시작하며, 사용자의 음성을 텍스트로 변환합니다.<br>
 EXTRA_LANGUAGE로 언어를 한국어로 설정하고, 사용자가 음성 명령을 입력하도록 프롬프트를 표시합니다.<br>
 사용자의 음성이 텍스트로 변환된 후, onActivityResult() 메서드에서 그 결과를 처리합니다.<br>
 인식된 명령어는 화면에 표시되고, handleVoiceCommand() 메서드를 통해 적절한 제어 명령으로 변환되어 UDP 패킷으로 전송됩니다.<br>
+<br>
 ```java
 public void handleVoiceCommand(String msgText) {      
     }
 ```
-위의 sendCommand와 형식은 비슷하나 이 메서드에선 커맨드가 아닌 텍스트형으로 데이터가 전송됩니다.<br>
+이 매서드는 위의 sendCommand와 형식은 비슷하나 이 메서드에선 커맨드가 아닌 텍스트형으로 데이터가 전송됩니다.<br>
 포트는 9999번으로 Python에 연결하여 openai를 통해 텍스트가 적절한 커맨드로 변환되어 출력되도록 도와줍니다.<br>
+<br>
+```java
+private void openCCTVlActivity(String url) {
+    }
+```
+이 매서드는 뒤로가기버튼을 클릭시 새로운 Intent를 생성하여 CCTVActivity로 돌아가는 매서드입니다.<br>
+새로운 Intent가 생성될 때마다 스택이 쌓여 CCTVActivity가 계속 충첩이 되는 오류가 있었습니다. 이를 해결하기 위해 ```intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);```를 사용하여 만약 CCTVActivity가 이미 백그라운드 스택에 존재하는 경우 해당 액티비티를 맨 위로 이동시키고 그 위의 다른 액티비티들을 제거하도록 하였습니다.<br>
+이를 통해 불필요하게 액티비티가 중복되는 것을 방지하고 메모리 효율을 높힐 수 있게 되었습니다.<br>
 
+-------------------------------------------------
 
 
 
