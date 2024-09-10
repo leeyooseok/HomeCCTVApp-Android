@@ -14,6 +14,7 @@
 - ### [조명 밝기 제어 (LightControlActivity)](#lightcontrolactivity)
 -----------------------------------------
 ## LoginActivity
+
 - 입력한 ID와 비밀번호를 가져와서 문자열로 반환하고 공백을 제거합니다<br>
 - 'databaseHelper.checkUser(id,password)'로 데이터베이스에서 ID와 비밀번호를 확인합니다<br>
 ```java
@@ -83,7 +84,8 @@ private void showRegisterDialog() {
 
 --------------------------------------
 
- ## DatabaseHelper
+## DatabaseHelper
+
  DatabaseHelper클래스에서는 어플리케이션에서 사용자 정보를 관리하는 SQLite 데이터베이스를 다루기 위해 설계되었습니다.
 <br>
 SQLite를 상속받아 데이터베이스의 생성과 업그레이드를 관리합니다.<br>
