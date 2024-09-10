@@ -84,7 +84,8 @@ private void showRegisterDialog() {
 
 --------------------------------------
 
-## DatabaseHelper
+### DatabaseHelper
+
 
  DatabaseHelper클래스에서는 어플리케이션에서 사용자 정보를 관리하는 SQLite 데이터베이스를 다루기 위해 설계되었습니다.
 <br>
@@ -182,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
 
 ---------------------------------------------------------------------
 
-## CCTVActivity
+### CCTVActivity
 
 3개의 IP주소를 받아 영상을 스트리밍을 하였고 화면을 클릭하였을때 CCTV를 제어할 수 있는 CCTVControlActivity로 이동할 수 있습니다.<br>
 여기서는 2개의 컴퓨터로 다른 IP주소를 사용하여 ```private void openCCTVControlActivity(String url,String IP)```함수를 사용했을때 URL과 IP주소를 같이 기입해줘야 해당 주소의 서버로 명령어가 전달되어 원하는 영상의 움직임을 제어할 수 있습니다.<br>
@@ -236,7 +237,7 @@ public class CCTVActivity extends AppCompatActivity {
 
 -----------------------------------------------------------------------------------------
 
-## CCTVControlActivity
+### CCTVControlActivity
 
 CCTVControlActivity클래스는 CCTVActivity에서 선택한 카메라를 제어할 수 있도록 구현해둔 클래스로 버튼을 통한 움직임과 음성인식을 통한 움직임이 가능하도록 하였습니다.<br>
 제일 많은 시간이 들었던 클래스였으며 기능을 수정하거나 추가하였을때 쓰레드간의 충돌이 생겨 어플리케이션이 강제종료되는 경우가 발생하여 다른 방법을 찾아볼 수 있는 좋은 기화가 되었습니다.<br>
@@ -423,7 +424,7 @@ private void openCCTVlActivity(String url) {
 
 -------------------------------------------------
 
-## StreamCCTV
+### StreamCCTV
 
 StreamCCTV클래스에서는 네트워크를 통해 특정 URL에서 비디오 데이터를 계속하여 받아오고 실시간으로 화면에 랜더링하는 역할을 합니다.<br>
 네트워크를 통해 전송된 비디오 스트림은 일반적으로 프레임 단위로 나누어져 전송되는데 이 코드는 비디오 프레임을 하나씩 받아와 각각의 이미지를 화면에 그리는 방식으로 처리하였습니다.<br>
@@ -552,7 +553,7 @@ JPEG 파일 형식의 비디오 데이터를 읽어와, 헤더(0xFFD8)와 푸터
 
 --------------------------------------------------------------------------------------------------------
 
-## LightControlActivity
+### LightControlActivity
 
 LightControlActivity클래스는 조명 밝기 제어 목적으로 구현해둔 클래스로 4개의 조명제어가 가능하고 전체 점등,소등 버튼을 추가하여 편리성을 높혔습니다.<br>
 이 클래스의 xml은 on/off스위치 이미지를 겹쳐서 버튼을 클릭할 경우 이미지가 전환되는 형식으로 현재의 조명상태를 확인할 수 있습니다.
