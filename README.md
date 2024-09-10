@@ -5,7 +5,7 @@
 - 음성명령을 openAI를 통해 상하좌우 카메라의 움직임이 가능하도록 구현했습니다.
 - 아두이노에 명령을 전송하여 전등제어기능을 추가하였습니다.
 ----------------------------------------------------------------------------------------------
-## 1.LoginActivity(#loginactivity)
+## 1. [LoginActivity](#loginactivity)
  - ### DatabaseHelper(#2)
 ## 2.MainActivity(#3)
 - ### CCTV 제어(CCTVActivity)(#4)
