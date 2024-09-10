@@ -6,12 +6,12 @@
 - 아두이노에 명령을 전송하여 전등제어기능을 추가하였습니다.
 ----------------------------------------------------------------------------------------------
 ## 1. [LoginActivity](#loginactivity)
- - ### DatabaseHelper(#2)
-## 2.MainActivity(#3)
-- ### CCTV 제어(CCTVActivity)(#4)
-- ### CCTVControlActivity(#5)
-- ### StreamCCTV(#6)
-- ### 조명 밝기 제어(LightControlActivity)(#7)
+ -- ### [DatabaseHelper](#databasehelper)
+## 2. [MainActivity](#mainactivity)
+- ### [CCTV 제어 (CCTVActivity)](#cctv-제어-cctvactivity)
+- ### [CCTVControlActivity](#cctvcontrolactivity)
+- ### [StreamCCTV](#streamcctv)
+- ### [조명 밝기 제어 (LightControlActivity)](#조명-밝기-제어-lightcontrolactivity)
 -----------------------------------------
 # LoginActivity
 - 입력한 ID와 비밀번호를 가져와서 문자열로 반환하고 공백을 제거합니다<br>
