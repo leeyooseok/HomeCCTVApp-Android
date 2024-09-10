@@ -11,7 +11,7 @@
 - ### CCTV 제어(CCTVActivity)<br>
 - ### CCTVControlActivity
 - ### StreamCCTV
-- ### 전등 제어(LightControlActivity)<br>
+- ### 조명 밝기 제어(LightControlActivity)<br>
 -----------------------------------------
 # LoginActivity
 - 입력한 ID와 비밀번호를 가져와서 문자열로 반환하고 공백을 제거합니다<br>
@@ -182,6 +182,10 @@ public class MainActivity extends AppCompatActivity {
 
 # CCTVActivity
 
+3개의 IP주소를 받아 영상을 스트리밍을 하였고 화면을 클릭하였을때 CCTV를 제어할 수 있는 CCTVControlActivity로 이동할 수 있습니다.<br>
+여기서는 2개의 컴퓨터로 다른 IP주소를 사용하여 ```private void openCCTVControlActivity(String url,String IP)```함수를 사용했을때 URL과 IP주소를 같이 기입해줘야 해당 주소의 서버로 명령어가 전달되어 원하는 영상의 움직임을 제어할 수 있습니다.<br>
+현재 세번째 CCTV는 임의의 URL주소를 받아서 스트리밍만 구현해둔 상태로 움직임을 제어할 수 없는 상태이기 떄문에 cameraIP를 null로 지정해둔 상태입니다.
+
 ```java
 package com.example.homecctv;
 
@@ -207,7 +211,6 @@ public class CCTVActivity extends AppCompatActivity {
         cctvSurfaceView1.setStreamUrl("http://192.168.0.109:8000/camera/mjpeg");
         cctvSurfaceView2.setStreamUrl("http://192.168.0.100:8000/camera/mjpeg");
         cctvSurfaceView3.setStreamUrl("http://109.236.111.203/mjpg/video.mjpg");
-        //cctvSurfaceView2.setStreamUrl("http://192.168.0.109:8000/camera/mjpeg");
 
         // 첫 번째 CCTV 클릭 시
         cctvSurfaceView1.setOnClickListener(v -> openCCTVControlActivity("http://192.168.0.109:8000/camera/mjpeg","192.168.0.109"));
@@ -228,37 +231,17 @@ public class CCTVActivity extends AppCompatActivity {
     }
 }
 ```
-3개의 IP주소를 받아 영상을 스트리밍을 하였고 화면을 클릭하였을때 CCTV를 제어할 수 있는 액티비티로 넘어갈 수 있습니다.<br>
-여기서는 2개의 컴퓨터로 다른 IP주소를 사용하여 ```private void openCCTVControlActivity(String url,String IP)```함수를 사용했을때 URL과 IP주소를 같이 기입해줘야 해당 주소의 서버로 명령어가 전달되어 원하는 영상의 움직임을 제어할 수 있습니다.<br>
-현재 세번째 CCTV는 임의의 주소를 받아서 스트리밍만 구현해둔 상태로 움직임을 제어할 수 없는 상태이기 떄문에 cameraIP를 null로 지정해둔 상태입니다.
 
 -----------------------------------------------------------------------------------------
 
-CCTVControlActivity클래스는 CCTVActivity에서 선택한 카메라를 제어할 수 있도록 구현해둔 클래스로 버튼을 통한 움직임과 음성인식을 통한 움직임이 가능하도록 하였습니다.<br>
-제일 많은 시간이 들었던 클래스였으며 기능을 수정하거나 추가하였을때 쓰레드간의 충돌이 생겨 어플리케이션이 강제종료되는 경우가 발생하여 다른 방법을 찾아볼 수 있는 좋은 경험이 되었습니다.<br>
-Intent를 통해 화면 전환을 하는 과정에서 스택이 계속 쌓이는 부분을 해결하였습니다.<br>
-주석처리 된 부분은 블루투스로 송수신하는 방법으로 원거리 통신에 제한이 있어 HomeCCTV의 목적성에 부적합하다 생각하여 서버를 통해 송수신하는 방법으로 구현하였습니다.<br>
 # CCTVControlActivity
 
+CCTVControlActivity클래스는 CCTVActivity에서 선택한 카메라를 제어할 수 있도록 구현해둔 클래스로 버튼을 통한 움직임과 음성인식을 통한 움직임이 가능하도록 하였습니다.<br>
+제일 많은 시간이 들었던 클래스였으며 기능을 수정하거나 추가하였을때 쓰레드간의 충돌이 생겨 어플리케이션이 강제종료되는 경우가 발생하여 다른 방법을 찾아볼 수 있는 좋은 기화가 되었습니다.<br>
+Intent를 통해 화면 전환을 하는 과정에서 스택이 계속 쌓이는 부분을 해결하였습니다.<br>
+주석처리 된 부분은 블루투스로 송수신하는 방법으로 원거리 통신에 제한이 있어 HomeCCTV의 목적성에 부적합하다 생각하여 서버를 통해 송수신하는 방법으로 구현하였습니다.<br>
+
 ```java
-package com.example.homecctv;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.speech.RecognizerIntent;
-import android.util.Log;
-import android.widget.Button;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.widget.TextView;
-import android.widget.Toast;
-
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.util.ArrayList;
-import java.util.Locale;
-
 public class CCTVControlActivity extends AppCompatActivity {
 
     private StreamCCTV cctvSurfaceView;
@@ -408,7 +391,8 @@ public void sendCommand(char command) {
 ``` InetAddress ia=InetAddress.getByName(cameraIP);``` 를 통해 카메라의 IP를 받아올 수 있으며 ``` DatagramPacket dp = new DatagramPacket(data,data.length,ia,SERVER_PORT);``` 에서는 위에서 정의해둔 SERVER_PORT=7777 사용합니다.<br>
 <br>
 ```java
-private void startVoiceRecognition()
+private void startVoiceRecognition(){
+    }
 ```
 <br>
 ```java
@@ -437,17 +421,169 @@ private void openCCTVlActivity(String url) {
 
 -------------------------------------------------
 
+#StreamCCTV
 
+StreamCCTV클래스에서는 네트워크를 통해 특정 URL에서 비디오 데이터를 계속하여 받아오고 실시간으로 화면에 랜더링하는 역할을 합니다.<br>
+네트워크를 통해 전송된 비디오 스트림은 일반적으로 프레임 단위로 나누어져 전송되는데 이 코드는 비디오 프레임을 하나씩 받아와 각각의 이미지를 화면에 그리는 방식으로 처리하였습니다.<br>
+```java
+public class StreamCCTV extends SurfaceView implements SurfaceHolder.Callback, Runnable {
+    private static final int THREAD_POOL_SIZE = 1;
+    private ExecutorService executorService;
+    private boolean threadRunning = true;
+    private String streamUrl;
 
+    public StreamCCTV(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
+        getHolder().addCallback(this);
+        executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
+    }
 
+    public void setStreamUrl(String url) {
+        this.streamUrl = url;
+        if (threadRunning) {
+            executorService.submit(this);
+        }
+    }
 
+    @Override
+    public void surfaceCreated(@NonNull SurfaceHolder holder) {
+        if (executorService.isShutdown()) {
+            executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
+        }
+        if (threadRunning) {
+            executorService.submit(this);
+        }
+    }
 
+    @Override
+    public void surfaceChanged(@NonNull SurfaceHolder holder, int format, int width, int height) {
+    }
 
+    @Override
+    public void surfaceDestroyed(@NonNull SurfaceHolder holder) {
+        threadRunning = false;
+        executorService.shutdownNow(); // 모든 쓰레드 종료
+    }
 
+    @Override
+    public void run() {
+        final int maxImgSize = 10000000;
+        byte[] arr = new byte[maxImgSize];
+        try {
+            URL url = new URL(streamUrl);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            InputStream in = con.getInputStream();
+            while (threadRunning) {
+                int i = 0;
+                for (; i < 2000; i++) {
+                    int b = in.read();
+                    if (b == 0xff) {
+                        int b2 = in.read();
+                        if (b2 == 0xd8)
+                            break;
+                    }
+                }
+                if (i > 999) {
+                    Log.e("MyHomeCCTV", "Bad head!");
+                    continue;
+                }
+                arr[0] = (byte) 0xff;
+                arr[1] = (byte) 0xd8;
+                i = 2;
+                for (; i < maxImgSize; i++) {
+                    int b = in.read();
+                    arr[i] = (byte) b;
+                    if (b == 0xff) {
+                        i++;
+                        int b2 = in.read();
+                        arr[i] = (byte) b2;
+                        if (b2 == 0xd9) {
+                            break;
+                        }
+                    }
+                }
+                i++;
+                int nBytes = i;
+                Log.e("MyHomeCCTV", "got an image, " + nBytes + " bytes!");
 
+                Bitmap bitmap = BitmapFactory.decodeByteArray(arr, 0, nBytes);
+                bitmap = Bitmap.createScaledBitmap(bitmap, getWidth(), getHeight(), false);
 
+                SurfaceHolder holder = getHolder();
+                Canvas canvas = null;
+                canvas = holder.lockCanvas();
+                if (canvas != null) {
+                    canvas.drawColor(Color.TRANSPARENT);
+                    canvas.drawBitmap(bitmap, 0, 0, null);
+                    holder.unlockCanvasAndPost(canvas);
+                }
+            }
+        } catch (Exception e) {
+            Log.e("MyHomeCCTV", "Error:" + e.toString());
+        }
+    }
+}
+```
 
+``` private static final int THREAD_POOL_SIZE = 1;```쓰레드 풀 크기를 1로 설정하여 단일 스레드로 실행되는 ```ExecutorService```를 사용합니다. 이를 통해 스트리밍 작업이 별도의 쓰레드에서 비동기적으로 실행됩니다.<br>
+```ExecutorService```는 Java에서 제공되는 인터페이스로 쓰레드 관리를 위한 도구입니다. 이 도구는 비동기 작업을 실행하고 쓰레드 풀을 사용 해 여러 쓰레드를 효율적으로 관리합니다.
+- 스레드 관리: ExecutorService는 스레드를 직접 생성하고 관리하는 대신, 스레드 풀을 사용해 스레드가 필요할 때 재사용할 수 있습니다. 이 방식은 스레드를 매번 새로 생성하는 것보다 성능이 더 좋고 리소스를 절약할 수 있습니다.
+- 비동기 작업 실행: ExecutorService는 작업을 비동기적으로 처리합니다. 즉, 특정 작업을 다른 스레드에서 실행하면서, 메인 스레드(UI 스레드)는 계속해서 다른 작업을 수행할 수 있습니다. 이렇게 하면 UI가 멈추지 않고 부드럽게 동작할 수 있습니다.
+- 스레드 종료: 작업이 끝난 후 스레드를 적절하게 종료하거나 재활용할 수 있습니다. shutdown()이나 shutdownNow() 같은 메서드를 사용해 스레드 풀을 안전하게 종료할 수 있습니다.<br>
 
+```java
+public void setStreamUrl(String url) {
+    }
+```
+setStreamUrl() 메서드는 스트리밍 URL을 설정하고, 스레드가 실행 중이면 해당 URL로부터 비디오 데이터를 가져오는 작업을 스레드 풀에 제출합니다.<br>
 
+```java
+public void run() {
+    }
+```
+이 메서드는 비디오 스트림을 실시간으로 처리하여 화면에 랜더링하는 주요 작업을 수행하며 비디오 데이터의 전송과 처리를 매끄럽게 관리합니다.<br>
+maxImgSize는 최대 이미지 크기를 정의하는 상수이며 이 값은 비디오 프레임의 최대 크기를 의미합니다.<br>
+스트림 URL에서 HttpURLConnection을 사용해 데이터를 가져오고, 스트림에서 받은 이미지를 처리하여 화면에 그립니다.<br>
+JPEG 파일 형식의 비디오 데이터를 읽어와, 헤더(0xFFD8)와 푸터(0xFFD9)를 기준으로 각 이미지 프레임을 추출합니다.<br>
+추출한 이미지를 Bitmap으로 변환하고, SurfaceView에 그려 줍니다.<br>
+이 과정에서 다른 방법으로 영상을 랜더링하는 방법을 찾아봤으나 랜더링의 오류가 많아 이 방법을 선택하였습니다.<br>
 
+--------------------------------------------------------------------------------------------------------
 
+#LightControlActivity
+
+LightControlActivity클래스는 조명 밝기 제어 목적으로 구현해둔 클래스로 4개의 조명제어가 가능하고 전체 점등,소등 버튼을 추가하여 편리성을 높혔습니다.<br>
+이 클래스의 xml은 on/off스위치 이미지를 겹쳐서 버튼을 클릭할 경우 이미지가 전환되는 형식으로 현재의 조명상태를 확인할 수 있습니다.
+집안의 전등은 아두이노 모터를 통해 점등,소등이 제어 가능한 거로 알고 있으나 현재 주어진 상황에선 조명제어만 가능하여 조명제어만 구현하였습니다.<br>
+코드의 매서드가 CCTVControlActivity와 유사하여 중복되는 코드는 위의 CCTVControlActivity클래스 참고해주시면 되겠습니다.
+```java
+private void setupLightControls() {
+        setupLightControl(R.id.lightImage1, R.id.lightImage1On, R.id.buttonLight1, 'a', 'b');
+        setupLightControl(R.id.lightImage2, R.id.lightImage2On, R.id.buttonLight2, 'c', 'd');
+        setupLightControl(R.id.lightImage3, R.id.lightImage3On, R.id.buttonLight3, 'e', 'f');
+        setupLightControl(R.id.lightImage4, R.id.lightImage4On, R.id.buttonLight4, 'g', 'h');
+    }
+
+    private void setupLightControl(int offImageId, int onImageId, int buttonId, char onCommand, char offCommand) {
+        ImageView lightImageOff = findViewById(offImageId);
+        ImageView lightImageOn = findViewById(onImageId);
+        Button controlButton = findViewById(buttonId);
+
+        // Default state (off)
+        lightImageOff.setVisibility(ImageView.VISIBLE);
+        lightImageOn.setVisibility(ImageView.GONE);
+
+        controlButton.setOnClickListener(v -> {
+            if (lightImageOff.getVisibility() == ImageView.VISIBLE) {
+                lightImageOff.setVisibility(ImageView.GONE);
+                lightImageOn.setVisibility(ImageView.VISIBLE);
+                sendCommand2(onCommand);
+            } else {
+                lightImageOff.setVisibility(ImageView.VISIBLE);
+                lightImageOn.setVisibility(ImageView.GONE);
+                sendCommand2(offCommand);
+            }
+        });
+    }
+```
+버튼 하나에 on/off제어를 하도록하여 토글형식으로 제어하도록
