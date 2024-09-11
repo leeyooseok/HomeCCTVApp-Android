@@ -47,10 +47,9 @@
             startActivity(intent);
             finish(); // 현재 액티비티를 종료하여 뒤로가기 시 로그인 화면으로 돌아가지 않게 함
         } else {
-            Toast.makeText((), "로그인 실패: ID 또는 비밀번호를 확인하세요.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "로그인 실패: ID 또는 비밀번호를 확인하세요.", Toast.LENGTH_SHORT).show();
         }
-    }turn;
-        }
+}
 ```
 LayoutInflater는 XML레이아웃 리소스를 Java 객체로 변환하는데 사용되는 클래스입니다.<br>
 회원가입 버튼 클릭시 변환된 XML리소스가 나와서 회원가입뷰를 나타내줍니다.<br>
