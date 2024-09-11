@@ -1,7 +1,7 @@
 ## HomeCCTVApplication
 
 이 프로젝트는 아두이노에 할당된 명령어를 IP서버를 통해 Android Studio에 연결하여 원하는 명령을 전송할 수 있도록 구현한 프로그램입니다.<br>
-이 프로그램을 작동하기 위해선 Python,java,arduino를 함께 사용해야합니다.
+이 프로그램을 작동하기 위해선 Python,java,arduino를 함께 사용해야합니다.<br>
 전체적인 프로젝트는 아래 링크에서 확인해 주시면 됩니다.
 ## [HomeCCTV Project-all](https://github.com/leeyooseok/HomeCCTVApp-project.git)
 ------------------------------------------------------
