@@ -29,6 +29,10 @@
 - ### [조명 밝기 제어 (LightControlActivity)](#lightcontrolactivity)
 -----------------------------------------
 ## LoginActivity
+![123](https://github.com/user-attachments/assets/d1205bf4-2199-4d3a-b2ad-51012422913c)
+
+
+
 
 - 입력한 ID와 비밀번호를 가져와서 문자열로 반환하고 공백을 제거합니다<br>
 - 'databaseHelper.checkUser(id,password)'로 데이터베이스에서 ID와 비밀번호를 확인합니다<br>
@@ -163,6 +167,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 ## MainActivity
 
+![Screenshot_20240911_171451](https://github.com/user-attachments/assets/c3ea7638-2faa-47bb-9680-620942e5c939)
+
+
 MainActivity 클래스는 HomeCCTV 애플리케이션의 주요 기능인 CCTV제어와 조명제어 기능으로 이동할 수 있게 나누어 둔 클래스입니다.
 버튼을 클릭시 해당하는 액티비티로 전환하는 Intent 객체를 사용하여 액티비티간의 원활한 전환을 도와줍니다.
 ```java
@@ -198,6 +205,9 @@ public class MainActivity extends AppCompatActivity {
 ---------------------------------------------------------------------
 
 ### CCTVActivity
+
+![Screenshot_20240911_172125](https://github.com/user-attachments/assets/d87a1925-1f60-4068-b24d-30002819c080)
+
 
 3개의 IP주소를 받아 영상을 스트리밍을 하였고 화면을 클릭하였을때 CCTV를 제어할 수 있는 CCTVControlActivity로 이동할 수 있습니다.<br>
 여기서는 2개의 컴퓨터로 다른 IP주소를 사용하여 ```private void openCCTVControlActivity(String url,String IP)```함수를 사용했을때 URL과 IP주소를 같이 기입해줘야 해당 주소의 서버로 명령어가 전달되어 원하는 영상의 움직임을 제어할 수 있습니다.<br>
@@ -243,6 +253,9 @@ public class CCTVActivity extends AppCompatActivity {
 -----------------------------------------------------------------------------------------
 
 ### CCTVControlActivity
+
+[![Watch the video](https://img.youtube.com/vi/VIDEO_ID/0.jpg)](https://youtu.be/KwEdhXuhTcs)
+
 
 CCTVControlActivity클래스는 CCTVActivity에서 선택한 카메라를 제어할 수 있도록 구현해둔 클래스로 버튼을 통한 움직임과 음성인식을 통한 움직임이 가능하도록 하였습니다.<br>
 제일 많은 시간이 들었던 클래스였으며 기능을 수정하거나 추가하였을때 쓰레드간의 충돌이 생겨 어플리케이션이 강제종료되는 경우가 발생하여 다른 방법을 찾아볼 수 있는 좋은 기화가 되었습니다.<br>
@@ -559,6 +572,7 @@ JPEG 파일 형식의 비디오 데이터를 읽어와, 헤더(0xFFD8)와 푸터
 --------------------------------------------------------------------------------------------------------
 
 ### LightControlActivity
+
 
 LightControlActivity클래스는 조명 밝기 제어 목적으로 구현해둔 클래스로 4개의 조명제어가 가능하고 전체 점등,소등 버튼을 추가하여 편리성을 높혔습니다.<br>
 이 클래스의 xml은 on/off스위치 이미지를 겹쳐서 버튼을 클릭할 경우 이미지가 전환되는 형식으로 현재의 조명상태를 확인할 수 있습니다.
