@@ -254,8 +254,7 @@ public class CCTVActivity extends AppCompatActivity {
 
 ### CCTVControlActivity
 
-
-https://youtu.be/KwEdhXuhTcs/0.jpg
+![Screenshot_20240911_180941](https://github.com/user-attachments/assets/10150c2f-d7ab-4489-9e26-297bb3a70619)
 
 
 
@@ -575,6 +574,7 @@ JPEG 파일 형식의 비디오 데이터를 읽어와, 헤더(0xFFD8)와 푸터
 
 ### LightControlActivity
 
+[Screen_recording_20240911_171537.webm](https://github.com/user-attachments/assets/e584b52f-6350-4980-a2c4-a78e8354a284)
 
 LightControlActivity클래스는 조명 밝기 제어 목적으로 구현해둔 클래스로 4개의 조명제어가 가능하고 전체 점등,소등 버튼을 추가하여 편리성을 높혔습니다.<br>
 이 클래스의 xml은 on/off스위치 이미지를 겹쳐서 버튼을 클릭할 경우 이미지가 전환되는 형식으로 현재의 조명상태를 확인할 수 있습니다.
