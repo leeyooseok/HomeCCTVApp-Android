@@ -254,7 +254,9 @@ public class CCTVActivity extends AppCompatActivity {
 
 ### CCTVControlActivity
 
-[![Watch the video](https://img.youtube.com/vi/VIDEO_ID/0.jpg)](https://youtu.be/KwEdhXuhTcs)
+
+https://youtu.be/KwEdhXuhTcs/0.jpg
+
 
 
 CCTVControlActivity클래스는 CCTVActivity에서 선택한 카메라를 제어할 수 있도록 구현해둔 클래스로 버튼을 통한 움직임과 음성인식을 통한 움직임이 가능하도록 하였습니다.<br>
