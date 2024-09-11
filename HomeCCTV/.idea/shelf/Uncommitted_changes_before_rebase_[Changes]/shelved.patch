@@ -1,0 +1,37 @@
+Index: ../MoveCamera/MoveCamera.ino
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>#include <Servo.h>\r\n\r\nServo servoX; // X축 서보 모터\r\nServo servoY; // Y축 서보 모터\r\nint LEDpin_1 = 11, LEDpin_2 = 12, LEDpin_3 = 15, LEDpin_4 = 16;\r\n\r\nvoid setup() {\r\n  servoX.attach(9); // X축 서보 모터 핀 연결\r\n  servoY.attach(10); // Y축 서보 모터 핀 연결\r\n\r\n  Serial.begin(9600); // 시리얼 통신 시작\r\n\r\n  servoX.write(70);\r\n  servoY.write(90);\r\n  pinMode(LEDpin_1, OUTPUT);\r\n  pinMode(LEDpin_2, OUTPUT);\r\n  pinMode(LEDpin_3, OUTPUT);\r\n  pinMode(LEDpin_4, OUTPUT);\r\n  digitalWrite(LEDpin_1, LOW); // LED1를 끈 상태로 초기화\r\n  digitalWrite(LEDpin_2, LOW); // LED2를 끈 상태로 초기화\r\n  digitalWrite(LEDpin_3, LOW); // LED3를 끈 상태로 초기화\r\n  digitalWrite(LEDpin_4, LOW); // LED4를 끈 상태로 초기화\r\n  \r\n}\r\n\r\nvoid loop() {\r\n  if (Serial.available() > 0) {\r\n    char command = Serial.read();\r\n    Serial.println(command);\r\n    switch(command) {\r\n      case 'U':\r\n        servoY.write(servoY.read() - 10); // 위로 이동\r\n        break;\r\n      case 'D':\r\n        servoY.write(servoY.read() + 10); // 아래로 이동\r\n        break;\r\n      case 'L':\r\n        servoX.write(servoX.read() + 10); // 왼쪽으로 이동\r\n        break;\r\n      case 'R':\r\n        servoX.write(servoX.read() - 10); // 오른쪽으로 이동\r\n        break;\r\n      case 'a': // LED1을 켠다\r\n        digitalWrite(LEDpin_1, HIGH);\r\n        break;\r\n      case 'b': // LED1을 끔\r\n        digitalWrite(LEDpin_1, LOW);\r\n        break;\r\n      case 'c': // LED2을 켠다\r\n        digitalWrite(LEDpin_2, HIGH);\r\n        break;\r\n      case 'd': // LED2를 끔\r\n        digitalWrite(LEDpin_2, LOW);\r\n        break;\r\n      case 'e': // LED3를 켠다\r\n        digitalWrite(LEDpin_3, HIGH);\r\n        break;\r\n      case 'f': // LED3를 끔\r\n        digitalWrite(LEDpin_3, LOW);\r\n        break;\r\n      case 'g': // LED4를 켠다\r\n        digitalWrite(LEDpin_4, HIGH);\r\n        break;\r\n      case 'h': // LED4를 끔\r\n        digitalWrite(LEDpin_4, LOW);\r\n        break;\r\n      case 'i': // 전체 점등\r\n        digitalWrite(LEDpin_1, HIGH);\r\n        digitalWrite(LEDpin_2, HIGH);\r\n        digitalWrite(LEDpin_3, HIGH);\r\n        digitalWrite(LEDpin_4, HIGH);\r\n        break;\r\n      case 'j': // 전체 소등\r\n        digitalWrite(LEDpin_1, LOW);\r\n        digitalWrite(LEDpin_2, LOW);\r\n        digitalWrite(LEDpin_3, LOW);\r\n        digitalWrite(LEDpin_4, LOW);\r\n        break;\r\n    }\r\n  }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../MoveCamera/MoveCamera.ino b/../MoveCamera/MoveCamera.ino
+--- a/../MoveCamera/MoveCamera.ino	
++++ b/../MoveCamera/MoveCamera.ino	
+@@ -10,7 +10,7 @@
+ 
+   Serial.begin(9600); // 시리얼 통신 시작
+ 
+-  servoX.write(70);
++  servoX.write(90);
+   servoY.write(90);
+   pinMode(LEDpin_1, OUTPUT);
+   pinMode(LEDpin_2, OUTPUT);
+Index: ../cam2web-master/cam2web-master/src/apps/win/.vs/cam2web/v17/DocumentLayout.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{\r\n  \"Version\": 1,\r\n  \"WorkspaceRootPath\": \"C:\\\\Users\\\\405\\\\Downloads\\\\cam2web-master\\\\cam2web-master\\\\src\\\\apps\\\\win\\\\\",\r\n  \"Documents\": [],\r\n  \"DocumentGroupContainers\": [\r\n    {\r\n      \"Orientation\": 0,\r\n      \"VerticalTabListWidth\": 256,\r\n      \"DocumentGroups\": [\r\n        {\r\n          \"DockedWidth\": 200,\r\n          \"SelectedChildIndex\": -1,\r\n          \"Children\": [\r\n            {\r\n              \"$type\": \"Bookmark\",\r\n              \"Name\": \"ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}\"\r\n            }\r\n          ]\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/../cam2web-master/cam2web-master/src/apps/win/.vs/cam2web/v17/DocumentLayout.json b/../cam2web-master/cam2web-master/src/apps/win/.vs/cam2web/v17/DocumentLayout.json
+--- a/../cam2web-master/cam2web-master/src/apps/win/.vs/cam2web/v17/DocumentLayout.json	
++++ b/../cam2web-master/cam2web-master/src/apps/win/.vs/cam2web/v17/DocumentLayout.json	
+@@ -1,6 +1,6 @@
+ {
+   "Version": 1,
+-  "WorkspaceRootPath": "C:\\Users\\405\\Downloads\\cam2web-master\\cam2web-master\\src\\apps\\win\\",
++  "WorkspaceRootPath": "C:\\Users\\405\\Desktop\\CCTVproject\\cam2web-master\\cam2web-master\\src\\apps\\win\\",
+   "Documents": [],
+   "DocumentGroupContainers": [
+     {
