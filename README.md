@@ -206,8 +206,7 @@ public class MainActivity extends AppCompatActivity {
 
 ### CCTVActivity
 
-![KakaoTalk_20240912_181356061](https://github.com/user-attachments/assets/8ad610f7-1786-47df-a1ba-dafcf5d66c5b)
-
+![KakaoTalk_20240912_181356061](https://github.com/user-attachments/assets/efa0af0b-d794-4c56-9193-58ed7771445d)
 
 
 3개의 IP주소를 받아 영상을 스트리밍을 하였고 화면을 클릭하였을때 CCTV를 제어할 수 있는 CCTVControlActivity로 이동할 수 있습니다.<br>
