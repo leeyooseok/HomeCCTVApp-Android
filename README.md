@@ -206,7 +206,8 @@ public class MainActivity extends AppCompatActivity {
 
 ### CCTVActivity
 
-![Screenshot_20240911_172125](https://github.com/user-attachments/assets/d87a1925-1f60-4068-b24d-30002819c080)
+![KakaoTalk_20240912_181356061](https://github.com/user-attachments/assets/8ad610f7-1786-47df-a1ba-dafcf5d66c5b)
+
 
 
 3개의 IP주소를 받아 영상을 스트리밍을 하였고 화면을 클릭하였을때 CCTV를 제어할 수 있는 CCTVControlActivity로 이동할 수 있습니다.<br>
@@ -247,6 +248,14 @@ public class CCTVActivity extends AppCompatActivity {
         intent.putExtra("cameraIP", IP);
         startActivity(intent);
     }
+    private void openMainlActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        // 새 액티비티 시작
+        startActivity(intent);
+    }
+}
+
 }
 ```
 
