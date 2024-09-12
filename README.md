@@ -257,6 +257,7 @@ public class CCTVActivity extends AppCompatActivity {
 
 [![Video Title](https://img.youtube.com/vi/KwEdhXuhTcs/0.jpg)](https://www.youtube.com/watch?v=KwEdhXuhTcs)
 
+(동영상 클릭시 유튜브링크로 이동)
 
 
 
