@@ -254,7 +254,9 @@ public class CCTVActivity extends AppCompatActivity {
 
 ### CCTVControlActivity
 
-![Screenshot_20240911_180941](https://github.com/user-attachments/assets/10150c2f-d7ab-4489-9e26-297bb3a70619)
+
+[![Video Title](https://img.youtube.com/vi/KwEdhXuhTcs/0.jpg)](https://www.youtube.com/watch?v=KwEdhXuhTcs)
+
 
 
 
